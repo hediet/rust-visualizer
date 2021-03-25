@@ -1,0 +1,29 @@
+[package]
+name = "visualizer-cli"
+version = "0.1.0"
+authors = ["Henning Dieterichs <henning.dieterichs@live.de>"]
+edition = "2018"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "web/dist/bundle.zip"
+]
+
+[dependencies]
+wry = { git = "https://github.com/tauri-apps/wry", branch = "dev" }
+structopt = "0.3.21"
+rust-embed = "5.9.0"
+url = "2.2.1"
+serde = "1.0.125"
+serde_json = { version = "1.0.64", features = ["raw_value"] }
+futures = "0.3.13"
+async-std = "1.9.0"
+jsonrpc-stdio-server = "17.0.0"
+jsonrpc-derive = "17.0.0"
+jsonrpc-core = "17.0.0"
+jsonrpc-core-client = "17.0.0"
+tokio = { version = "0.2", features = ["full"] }
+async-trait = "0.1.48"
+app_dirs = "1.2.1"
+zip = "0.5.11"
+sha2 = "0.9.3"
