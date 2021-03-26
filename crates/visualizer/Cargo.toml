@@ -3,6 +3,9 @@ name = "visualizer"
 version = "0.1.0"
 authors = ["Henning Dieterichs <henning.dieterichs@live.de>"]
 edition = "2018"
+license = "MIT"
+repository = "https://github.com/hediet/rust-visualizer/"
+description = "Connects to the visualizer CLI to show a visualization in a new window for supported values."
 
 [dependencies]
 serde = "1.0.125"

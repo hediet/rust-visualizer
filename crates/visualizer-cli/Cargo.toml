@@ -8,6 +8,9 @@ include = [
     "Cargo.toml",
     "web/dist/bundle.zip"
 ]
+license = "MIT"
+repository = "https://github.com/hediet/rust-visualizer/"
+description = "Shows a visualization of supported values in a new window."
 
 [dependencies]
 wry = { git = "https://github.com/tauri-apps/wry", branch = "dev" }
