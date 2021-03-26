@@ -1,13 +1,10 @@
-use std::{borrow::BorrowMut, cell::RefCell, fs::{self, File}, io::Read, path::PathBuf, str::FromStr, sync::{Arc, Mutex}};
-use fs::remove_dir_all;
-use sha2::{Digest, Sha256};
+use std::{borrow::BorrowMut, cell::RefCell, io::Read,  sync::{Arc, Mutex}};
 
 use futures::{
     channel::oneshot::{self},
     future::Shared,
     FutureExt,
 };
-use rust_embed::RustEmbed;
 use serde::{Deserialize, Serialize};
 use serde_json::from_value;
 use url::Url;
@@ -15,46 +12,21 @@ use wry::{Application, ApplicationProxy, Attributes, CustomProtocol, RpcRequest,
 
 pub struct DebugVisualizerApp {
     app: Application,
-    dist_dir: PathBuf,
 }
 
 const BUNDLE_ZIP: &'static [u8] = include_bytes!("../web/dist/bundle.zip");
 
-fn hash(value: &[u8]) -> String {
-    let mut hasher = Sha256::new();
-    hasher.update(value);
-    let result = hasher.finalize();
-    let hash_str = format!("{:x}", result);
-    return hash_str;
-}
 
 impl DebugVisualizerApp {
-    pub fn new(cache_dir: PathBuf) -> wry::Result<DebugVisualizerApp> {
+    pub fn new() -> wry::Result<DebugVisualizerApp> {
         let app = Application::new()?;
 
-        let bundle_hash = hash(BUNDLE_ZIP);
-        let dist_dir = cache_dir.join(format!("bundle_{}", bundle_hash));
-        if !dist_dir.exists() {
-            if cache_dir.exists() {
-                let is_safe_to_delete = cache_dir.read_dir().unwrap().all(|e| e.map(|v| v.file_name().to_string_lossy().starts_with("bundle_")).unwrap_or(false));
-                if is_safe_to_delete {
-                    std::fs::remove_dir_all(cache_dir).expect("Delete entire cache directory");
-                } else {
-                    eprintln!("Could not delete cache as it contains unexpected files");
-                }
-            }
-
-            let c = std::io::Cursor::new(BUNDLE_ZIP);
-            let mut archive = zip::ZipArchive::new(c).unwrap();
-            archive.extract(dist_dir.clone()).expect("Extraction to work");
-        }
-        Ok(DebugVisualizerApp { app, dist_dir })
+        Ok(DebugVisualizerApp { app })
     }
 
     pub fn proxy(&self) -> DebugVisualizerAppProxy {
         DebugVisualizerAppProxy {
             app_proxy: self.app.application_proxy(),
-            dist_dir: self.dist_dir.clone()
         }
     }
 
@@ -65,7 +37,6 @@ impl DebugVisualizerApp {
 
 pub struct DebugVisualizerAppProxy {
     app_proxy: ApplicationProxy,
-    dist_dir: PathBuf,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -80,6 +51,11 @@ enum Event {
 
 impl DebugVisualizerAppProxy {
     pub fn new_window(&self) -> wry::Result<DebugVisualizerWindow> {
+
+        let c = std::io::Cursor::new(BUNDLE_ZIP);
+        let zip = Arc::new(Mutex::new(zip::ZipArchive::new(c).unwrap()));
+        
+
         let attributes = Attributes {
             url: 
                 //Some("http://localhost:8080".to_string()), 
@@ -119,8 +95,6 @@ impl DebugVisualizerAppProxy {
             None
         });
 
-        let base = self.dist_dir.clone();
-
         let window = self.app_proxy.add_window_with_configs(
             attributes,
             Some(handler),
@@ -129,17 +103,16 @@ impl DebugVisualizerAppProxy {
                 handler: Box::new(move |url: &str| {
                     let url = Url::parse(url)?;
                     let path = &url.path()[1..];
-                                        
-                    let f = base.join(path);
-                    
-                    if let Ok(mut file) = File::open(f) {
+
+                    let mut archive = zip.lock().unwrap();
+                    let file_result = archive.by_name(path);
+                    if let Ok(mut file) = file_result {
                         let mut buf = Vec::new();
                         file.read_to_end(&mut buf).unwrap();
                         Ok(buf)
                     } else {
                         Err(wry::Error::MessageSender)
                     }
-                    
                 }),
             }),
             None,

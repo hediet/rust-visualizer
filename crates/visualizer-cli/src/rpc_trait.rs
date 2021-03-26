@@ -1,4 +1,4 @@
-use jsonrpc_core::{Result, Value};
+use jsonrpc_core::Result;
 use jsonrpc_derive::rpc;
 use serde_json::value::RawValue;
 

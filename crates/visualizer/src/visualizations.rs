@@ -84,3 +84,66 @@ impl<'t> Visualization for PngImage<'t> {
         serde_json::to_string(self).unwrap()
     }
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Plotly {
+    kind: PlotlyKind,
+    data: Vec<PlotlySeries>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PlotlySeries {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    x: Option<Vec<f64>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    y: Option<Vec<f64>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    z: Option<Vec<f64>>,
+}
+
+impl Default for PlotlySeries {
+    fn default() -> PlotlySeries {
+        PlotlySeries {
+            x: None,
+            y: None,
+            z: None,
+        }
+    }
+}
+
+impl PlotlySeries {
+    pub fn set_y(&mut self, ys: Vec<f64>) -> &mut Self {
+        self.y = Some(ys);
+        self
+    }
+
+    pub fn with_y(mut self, ys: Vec<f64>) -> Self {
+        self.y = Some(ys);
+        self
+    }
+}
+
+#[derive(Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct PlotlyKind {
+    plotly: True,
+}
+
+impl Plotly {
+    pub fn of_y(ys: &[f64]) -> Self {
+        Plotly {
+            kind: PlotlyKind::default(),
+            data: vec![PlotlySeries::default().with_y(ys.into())],
+        }
+    }
+}
+
+impl<'t> Visualization for Plotly {
+    fn json_data(&self) -> String {
+        serde_json::to_string(self).unwrap()
+    }
+}
