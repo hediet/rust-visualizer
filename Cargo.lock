@@ -651,8 +651,7 @@ name = "demo"
 version = "0.1.0"
 dependencies = [
  "image",
- "serde",
- "serde_json",
+ "image-visualizer",
  "visualizer",
 ]
 
@@ -1202,6 +1201,14 @@ dependencies = [
  "png",
  "scoped_threadpool",
  "tiff",
+]
+
+[[package]]
+name = "image-visualizer"
+version = "0.1.0"
+dependencies = [
+ "image",
+ "visualizer",
 ]
 
 [[package]]
@@ -2510,7 +2517,7 @@ dependencies = [
 
 [[package]]
 name = "visualizer-cli"
-version = "0.1.0"
+version = "0.1.2"
 dependencies = [
  "async-std",
  "async-trait",

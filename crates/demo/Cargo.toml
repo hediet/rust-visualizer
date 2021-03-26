@@ -6,7 +6,6 @@ edition = "2018"
 publish = false
 
 [dependencies]
+image-visualizer = { path = "../image-visualizer" }
 visualizer = { path = "../visualizer" }
-serde = "1.0.125"
-serde_json = "1.0.64"
 image = "0.23.14"

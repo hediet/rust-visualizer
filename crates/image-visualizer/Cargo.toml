@@ -1,0 +1,12 @@
+[package]
+name = "image-visualizer"
+version = "0.1.0"
+authors = ["Henning Dieterichs <henning.dieterichs@live.de>"]
+edition = "2018"
+license = "MIT"
+repository = "https://github.com/hediet/rust-visualizer/"
+description = "Provides an adapter to view images."
+
+[dependencies]
+visualizer = { path = "../visualizer" }
+image = "0.23.14"

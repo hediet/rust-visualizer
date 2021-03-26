@@ -1,12 +1,13 @@
 [package]
 name = "visualizer-cli"
-version = "0.1.0"
+version = "0.1.2"
 authors = ["Henning Dieterichs <henning.dieterichs@live.de>"]
 edition = "2018"
 include = [
     "**/*.rs",
     "Cargo.toml",
-    "web/dist/bundle.zip"
+    "web/dist/bundle.zip",
+    "docs/**/*"
 ]
 license = "MIT"
 repository = "https://github.com/hediet/rust-visualizer/"

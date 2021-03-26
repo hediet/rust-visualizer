@@ -48,19 +48,24 @@ enum Event {
     Initialized(InitializedEvent),
 }
 
+#[derive(Default)]
+pub struct WindowOptions {
+    pub title: Option<String>,
+}
 
 impl DebugVisualizerAppProxy {
-    pub fn new_window(&self) -> wry::Result<DebugVisualizerWindow> {
+    pub fn new_window(&self, options: WindowOptions) -> wry::Result<DebugVisualizerWindow> {
 
         let c = std::io::Cursor::new(BUNDLE_ZIP);
         let zip = Arc::new(Mutex::new(zip::ZipArchive::new(c).unwrap()));
         
+        let title = options.title.unwrap_or(String::from("Visualization"));
 
         let attributes = Attributes {
             url: 
                 //Some("http://localhost:8080".to_string()), 
                 Some("app://host/index.html".to_string()),
-            title: String::from("Visualization"),
+            title,
             //visible: false,
             initialization_scripts: vec![
                 String::from("window.sendMessage = function(message) { window.rpc.call('handleMessage', message) };"),

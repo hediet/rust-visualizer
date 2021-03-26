@@ -1,4 +1,5 @@
 {
+    "$schema": "https://hediet.github.io/visualization/docs/visualization-data-schema.json",
     "kind": { "graph": true },
     "nodes": [
         { "id": "1", "label": "1" },

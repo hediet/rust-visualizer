@@ -3,13 +3,17 @@ use std::{
     thread,
 };
 use structopt::StructOpt;
-use visualizer_cli::{run_rpc, DebugVisualizerApp};
+use visualizer_cli::{run_rpc, DebugVisualizerApp, WindowOptions};
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "visualize")]
 struct Opt {
+    /// Enables JSON RPC mode. Not stable yet.
     #[structopt(long)]
     rpc: bool,
+    /// Sets an optional window title.
+    #[structopt(long)]
+    title: Option<String>,
 }
 
 fn main() -> wry::Result<()> {
@@ -25,7 +29,9 @@ fn main() -> wry::Result<()> {
             let visualization_data = get_stdin_data().unwrap();
 
             futures::executor::block_on(async {
-                let window = proxy.new_window().unwrap();
+                let window = proxy
+                    .new_window(WindowOptions { title: opt.title })
+                    .unwrap();
 
                 window
                     .show_visualization_data(&visualization_data)

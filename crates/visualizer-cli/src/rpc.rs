@@ -7,7 +7,7 @@ use serde_json::value::RawValue;
 use std::boxed::Box;
 use tokio;
 
-use crate::DebugVisualizerAppProxy;
+use crate::{debug_visualizer_app::WindowOptions, DebugVisualizerAppProxy};
 use crate::{rpc_trait::VisualizerRpcServer, DebugVisualizerWindow};
 
 struct RpcState {
@@ -25,7 +25,7 @@ impl VisualizerRpcServer for VisualizerRpcServerImpl {
             let m = self.state.lock().await;
             let mut s = m.borrow_mut();
             if s.window.is_none() {
-                let w = s.app.new_window().unwrap();
+                let w = s.app.new_window(WindowOptions { title: None }).unwrap();
                 s.window = Some(w);
             }
             s.window
