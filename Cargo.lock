@@ -2871,7 +2871,8 @@ dependencies = [
 [[package]]
 name = "wry"
 version = "0.6.1"
-source = "git+https://github.com/tauri-apps/wry?branch=dev#485035f17d28560966b07b512935821814f0e951"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a2b317cf831ee57368b39cfe15ea95c5640928362c42224954262c73174aab43"
 dependencies = [
  "cairo-rs",
  "cocoa",
@@ -2884,7 +2885,6 @@ dependencies = [
  "image",
  "infer",
  "libc",
- "log",
  "objc",
  "objc_id",
  "once_cell",

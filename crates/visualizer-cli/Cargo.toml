@@ -13,7 +13,7 @@ repository = "https://github.com/hediet/rust-visualizer/"
 description = "Shows a visualization of supported values in a new window."
 
 [dependencies]
-wry = { git = "https://github.com/tauri-apps/wry", branch = "dev" }
+wry = "0.6"
 structopt = "0.3.21"
 url = "2.2.1"
 serde = "1.0.125"
