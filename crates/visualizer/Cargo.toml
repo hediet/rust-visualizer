@@ -8,6 +8,6 @@ repository = "https://github.com/hediet/rust-visualizer/"
 description = "Connects to the visualizer CLI to show a visualization in a new window for supported values."
 
 [dependencies]
-serde = "1.0.125"
+serde = { version = "1.0.125", features = ["derive"] }
 serde_json = "1.0.64"
 base64 = "0.13.0"
