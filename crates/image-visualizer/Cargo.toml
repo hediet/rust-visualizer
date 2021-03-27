@@ -8,5 +8,5 @@ repository = "https://github.com/hediet/rust-visualizer/"
 description = "Provides an adapter to view images."
 
 [dependencies]
-visualizer = { path = "../visualizer" }
+visualizer = { path = "../visualizer", version = "0.1.0" }
 image = "0.23.14"
