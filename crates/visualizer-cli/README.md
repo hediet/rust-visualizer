@@ -6,6 +6,9 @@ A tool to visualize data.
 Based on [@hediet/visualization](https://github.com/hediet/visualization) which also powers
 the [Debug Visualizer extension for VS Code](https://github.com/hediet/vscode-debug-visualizer).
 
+Best for debugging algorithms. Not suited to visualize large datasets.
+Requires WebView 2 on Windows.
+
 ## Installation
 
 ```
@@ -36,7 +39,7 @@ With `data.json`:
 }
 ```
 
-![Screenshot](./docs/screenshot-dag.png)
+![Screenshot](https://github.com/hediet/rust-visualizer/raw/HEAD/crates/visualizer-cli/docs/screenshot-dag.png)
 
 ## Example: Visualize A 3D Plot
 
@@ -64,7 +67,7 @@ With `data.json`:
 
 ```
 
-![Screenshot](./docs/screenshot-plot3d.png)
+![Screenshot](https://github.com/hediet/rust-visualizer/raw/HEAD/crates/visualizer-cli/docs/screenshot-plot3d.png)
 
 ## API / Rust Usage
 

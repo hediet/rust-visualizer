@@ -12,8 +12,18 @@ cargo install visualizer-cli
 cargo add visualizer
 ```
 
-## Usage
+## Example
 
+```rust
+use visualizer::{view, visualizations};
+
+fn main() {
+    view!(&visualizations::Plotly::of_y(&vec![
+        1.0, 2.0, 4.0, 9.0, 16.0
+    ]));
+}
 ```
 
-```
+## Creates That Provide Visualizations
+
+-   `image-visualizer`: Provides visualizations for images from the `image` crate.
