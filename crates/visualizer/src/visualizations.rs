@@ -3,6 +3,9 @@ use std::borrow::Cow;
 
 use crate::Visualization;
 
+// This file should provide types to build JSON documents matching
+// the schema at https://hediet.github.io/visualization/docs/visualization-data-schema.json.
+
 pub enum True {
     True,
 }
@@ -52,7 +55,7 @@ impl<'t> Text<'t> {
 }
 
 impl<'t> Visualization for Text<'t> {
-    fn json_data(&self) -> String {
+    fn to_json(&self) -> String {
         serde_json::to_string(self).unwrap()
     }
 }
@@ -80,7 +83,7 @@ impl<'t> PngImage<'t> {
 }
 
 impl<'t> Visualization for PngImage<'t> {
-    fn json_data(&self) -> String {
+    fn to_json(&self) -> String {
         serde_json::to_string(self).unwrap()
     }
 }
@@ -143,7 +146,7 @@ impl Plotly {
 }
 
 impl<'t> Visualization for Plotly {
-    fn json_data(&self) -> String {
+    fn to_json(&self) -> String {
         serde_json::to_string(self).unwrap()
     }
 }
